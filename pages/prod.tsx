@@ -12,6 +12,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { productState } from "../hooks/interface";
 import getProdData from "../util/getProdData";
@@ -36,9 +37,10 @@ const columns: readonly Column[] = [
 ];
 
 type AlignOptions = "id" | "가격높은순" | "가격낮은순";
-const alignOptions = ["id", "가격높은순", "가격낮은순"];
+const alignOptions: AlignOptions[] = ["id", "가격높은순", "가격낮은순"];
 
 const Product = ({ product }: productState) => {
+  const router = useRouter();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [findTitle, setFindTitle] = useState("");
@@ -46,6 +48,9 @@ const Product = ({ product }: productState) => {
   const [alignOption, setAlignOption] = useState<AlignOptions>();
 
   const open = Boolean(anchorEl);
+  const navigateToEditProd = (id: number) => {
+    router.push(`/editProd/${id}`);
+  };
 
   const handleChangePage = (evt: unknown, newPage: number) => {
     setPage(newPage);
@@ -140,7 +145,13 @@ const Product = ({ product }: productState) => {
                 .filter((item) => item.name.toLowerCase().includes(findTitle))
                 .map((item) => {
                   return (
-                    <TableRow key={item.id}>
+                    <TableRow
+                      key={item.id}
+                      selected
+                      onClick={() => {
+                        navigateToEditProd(item.id);
+                      }}
+                    >
                       <TableCell>{item.id}</TableCell>
                       <TableCell>{item.brand}</TableCell>
                       <TableCell>{item.name}</TableCell>
