@@ -11,11 +11,11 @@ import {
   TablePagination,
   TableRow,
   TextField,
-} from "@mui/material";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { productState } from "../hooks/interface";
-import getProdData from "../util/getProdData";
+} from '@mui/material';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { productState } from '../hooks/interface';
+import getProdData from '../util/getProdData';
 
 export async function getServerSideProps() {
   const product = await getProdData();
@@ -25,25 +25,25 @@ export async function getServerSideProps() {
 interface Column {
   label: string;
   minWidth?: number;
-  align?: "right" | "left";
+  align?: 'right' | 'left';
   format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
-  { label: "id", minWidth: 170, align: "left" },
-  { label: "brand", minWidth: 170, align: "left" },
-  { label: "name", minWidth: 170, align: "left" },
-  { label: "price", minWidth: 170, align: "left" },
+  { label: 'id', minWidth: 170, align: 'left' },
+  { label: 'brand', minWidth: 170, align: 'left' },
+  { label: 'name', minWidth: 170, align: 'left' },
+  { label: 'price', minWidth: 170, align: 'left' },
 ];
 
-type AlignOptions = "id" | "가격높은순" | "가격낮은순";
-const alignOptions: AlignOptions[] = ["id", "가격높은순", "가격낮은순"];
+type AlignOptions = 'id' | '가격높은순' | '가격낮은순';
+const alignOptions: AlignOptions[] = ['id', '가격높은순', '가격낮은순'];
 
 const Product = ({ product }: productState) => {
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [findTitle, setFindTitle] = useState("");
+  const [findTitle, setFindTitle] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [alignOption, setAlignOption] = useState<AlignOptions>();
 
@@ -77,7 +77,7 @@ const Product = ({ product }: productState) => {
 
   useEffect(() => {
     console.log(alignOption);
-    if (alignOption === "id") {
+    if (alignOption === 'id') {
       product = product.sort((a, b) => a.id - b.id);
     }
   }, [alignOption]);
@@ -88,11 +88,11 @@ const Product = ({ product }: productState) => {
         onChange={(evt) => {
           searchByInput(evt.target.value);
         }}
-        placeholder="상품이름으로 검색"
+        placeholder='상품이름으로 검색'
       />
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 600 }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -101,8 +101,8 @@ const Product = ({ product }: productState) => {
                     align={column.align}
                     style={{
                       minWidth: column.minWidth,
-                      color: "white",
-                      background: "black",
+                      color: 'white',
+                      background: 'black',
                     }}
                   >
                     {column.label}
@@ -110,9 +110,9 @@ const Product = ({ product }: productState) => {
                 ))}
                 <TableCell>
                   <Button
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup='true'
+                    aria-expanded={open ? 'true' : undefined}
                     onClick={alignOptionToggle}
                   >
                     정렬
@@ -122,11 +122,12 @@ const Product = ({ product }: productState) => {
                     open={open}
                     onClose={alignOptionClose}
                     MenuListProps={{
-                      "aria-labelledby": "basic-button",
+                      'aria-labelledby': 'basic-button',
                     }}
                   >
                     {alignOptions.map((option) => (
                       <MenuItem
+                        key={option}
                         onClick={() => {
                           setAlignOption(option);
                           alignOptionClose();
@@ -164,7 +165,7 @@ const Product = ({ product }: productState) => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component="div"
+          component='div'
           count={product.length}
           rowsPerPage={rowsPerPage}
           page={page}

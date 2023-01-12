@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import ProductItem from "./ProductItem";
+import React from 'react';
+import styled from 'styled-components';
+import ProductItem from './ProductItem';
 
 function ProductList({ product }: any) {
   return (
     <>
       <ListBlock>
-        {product.map((item: any) => (
-          <ProductItem item={item} />
+        {product.map((item: any, index: number) => (
+          <ProductItem item={item} key={index} />
         ))}
       </ListBlock>
     </>
